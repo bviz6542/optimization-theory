@@ -24,6 +24,15 @@ if __name__ == "__main__":
     biasdf = pd.read_excel("asset_selling_policy_parameters.xlsx", sheet_name="Sheet4")
     
     
+    #######
+    # 엑셀 버그 수정
+    if 'Unnamed: 0' in biasdf.columns:
+        biasdf = biasdf.drop(columns=['Unnamed: 0'])
+    biasdf.columns = biasdf.columns.str.strip()
+    biasdf = biasdf.apply(pd.to_numeric, errors="coerce")
+    biasdf.index = ['Up', 'Neutral', 'Down']
+    biasdf = biasdf.cumsum(axis=1)
+    #######
    
     policy_selected = sheet3['Policy'][0]
     T = sheet3['TimeHorizon'][0]
@@ -135,6 +144,27 @@ if __name__ == "__main__":
         
         axsubs[0].plot(theta_range, avg_res, 'g')
         axsubs[0].set_title('Average contribution')
+
+        #######
+        # 최적의 세타 그리기
+        avg_res = np.asarray(avg_res, dtype=float)
+        avg_stop = np.asarray(avg_stop, dtype=float)
+        best_idx = int(np.argmax(avg_res))
+        best_theta = float(theta_range[best_idx])
+        best_contrib = float(avg_res[best_idx])
+        best_tstop = float(avg_stop[best_idx])
+
+        axsubs[0].scatter([best_theta], [best_contrib], color='red', zorder=5, label='Best θ')
+        axsubs[0].annotate(
+            f"θ*={best_theta:.2f}\ncontrib={best_contrib:.2f}",
+            xy=(best_theta, best_contrib),
+            xytext=(0, -30),
+            textcoords="offset points",
+            ha='center', color='red', fontsize=9,
+            arrowprops=dict(arrowstyle="->", color="red")
+        )
+        axsubs[0].legend()
+        #######
           
         axsubs[1].plot(theta_range, avg_stop, 'g')
         axsubs[1].set_title('Average stopping time')
