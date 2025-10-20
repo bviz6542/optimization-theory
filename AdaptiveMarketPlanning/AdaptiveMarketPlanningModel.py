@@ -74,8 +74,8 @@ class AdaptiveMarketPlanningModel():
         derivative = self.price - self.cost if self.state.order_quantity < exog_info['demand'] else - self.cost
         # update order quantity
         new_order_quantity = max(0, self.state.order_quantity + decision.step_size * derivative)
-        print(' step ', decision.step_size)
-        print(' derivative ', derivative)
+        # print(' step ', decision.step_size)
+        # print(' derivative ', derivative)
         # count number of times derivative changes sign
         new_counter = self.state.counter + 1 if self.past_derivative * derivative < 0 else self.state.counter
         self.past_derivative = derivative
@@ -97,7 +97,7 @@ class AdaptiveMarketPlanningModel():
         exog_info = self.exog_info_fn(decision)
         onestep_contribution = self.objective_fn(decision, exog_info)
 
-        print("t {}, Price {}, Demand {}, order_quantity {}, contribution {}".format(self.t,self.price,exog_info['demand'],self.order_quantity,onestep_contribution))
+        # print("t {}, Price {}, Demand {}, order_quantity {}, contribution {}".format(self.t,self.price,exog_info['demand'],self.order_quantity,onestep_contribution))
 
         #Check if cumulative or terminal reward
         if (self.reward_type == 'Cumulative'):
