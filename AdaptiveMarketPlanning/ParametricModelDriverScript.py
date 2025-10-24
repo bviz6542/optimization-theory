@@ -97,6 +97,8 @@ if __name__ == "__main__":
         # plot results
         price = np.arange(price_low, price_high, 0.1)
         optimal = -np.log(cost / price) * 100
+        # ✅ 제목에 reward type과 theta step 나오게 수정
+        plt.title("Reward type: {}, theta_step: {}, T: {}".format(reward_type, theta_step, T))
         plt.plot(price, optimal, color='green', label="analytical solution")
         order_quantity = [M.order_quantity_fn(k, M.state.theta) for k in price]
         plt.plot(price, order_quantity, color='blue', label="parametrized solution")
