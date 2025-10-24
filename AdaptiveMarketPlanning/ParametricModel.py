@@ -24,6 +24,8 @@ class ParametricModel(AdaptiveMarketPlanningModel):
         self.low = price_low
         self.high = price_high
         self.PRICE_PROCESS = 'RW'
+        # ✅ adagrad 누적 제곱기울기
+        self.grad_square_sum = np.zeros_like(self.state.theta, dtype=float)
 
     # returns order quantity for a given price and theta vector
     def order_quantity_fn(self, price, theta):
@@ -47,7 +49,12 @@ class ParametricModel(AdaptiveMarketPlanningModel):
         else:
             derivative = (- self.cost) * self.derivative_fn(self.state.price, self.state.theta)
 
-        new_theta = self.state.theta + decision.step_size * derivative
+        # ----- ✅ adagrad (적용 전 코드를 보고 싶다면 53~56 줄을 주석 처리하면 됩니다)
+        self.grad_square_sum = self.grad_square_sum + (derivative ** 2)
+        eps = 1e-8
+        adjusted_lr = decision.step_size / (np.sqrt(self.grad_square_sum) + eps)
+        new_theta = self.state.theta + adjusted_lr * derivative
+        # ----- adagrad 코드는 여기까지
 
         new_counter = self.state.counter + 1 if np.dot(self.past_derivative, derivative) < 0 else self.state.counter
         # print(' step ', decision.step_size)
