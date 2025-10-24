@@ -37,19 +37,19 @@ if __name__ == "__main__":
     for theta_step in theta_list:
         # initialize model and run simulations
         M = ParametricModel(state_names, decision_names, init_state, T, reward_type, cost, price_low=price_low, price_high=price_high)
-        print("Theta_step ", theta_step)
+        # print("Theta_step ", theta_step)
         P = AdaptiveMarketPlanningPolicy(M, theta_step)
 
         rewards_per_iteration = []
         learning_list_per_iteration = []
         for ite in list(range(trial_size)):
-            print("Starting iteration ", ite)
+            # print("Starting iteration ", ite)
             reward, learning_list = P.run_policy()
             M.learning_list = []
             # print(learning_list)
             rewards_per_iteration.append(reward)
             learning_list_per_iteration.append(learning_list)
-            print("Ending iteration ", ite, " Reward ", reward)
+            # print("Ending iteration ", ite, " Reward ", reward)
 
         nElem = np.arange(1, trial_size + 1)
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
             rewards_per_iteration_cum_avg = rewards_per_iteration_cum_avg / T
             rewards_per_iteration = rewards_per_iteration / T
 
-        print("Reward type: {}, theta_step: {}, T: {} - Average reward over {} iteratios is: {}".format(reward_type, theta_step, T, trial_size, rewards_per_iteration_cum_avg[-1]))
+        # print("Reward type: {}, theta_step: {}, T: {} - Average reward over {} iteratios is: {}".format(reward_type, theta_step, T, trial_size, rewards_per_iteration_cum_avg[-1]))
 
         price = np.arange(price_low, price_high, 1)
         optimal = -np.log(cost / price) * 100

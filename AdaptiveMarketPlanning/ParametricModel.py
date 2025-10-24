@@ -38,7 +38,7 @@ class ParametricModel(AdaptiveMarketPlanningModel):
     def transition_fn(self, decision, exog_info):
 
         self.learning_list.append(self.state.theta)
-        print(' theta ', self.state.theta)
+        # print(' theta ', self.state.theta)
 
         # compute derivative and update theta
         derivative = np.array([0, 0, 0])
@@ -50,9 +50,9 @@ class ParametricModel(AdaptiveMarketPlanningModel):
         new_theta = self.state.theta + decision.step_size * derivative
 
         new_counter = self.state.counter + 1 if np.dot(self.past_derivative, derivative) < 0 else self.state.counter
-        print(' step ', decision.step_size)
-        print(' derivative ', derivative)
-        print('new theta ', new_theta)
+        # print(' step ', decision.step_size)
+        # print(' derivative ', derivative)
+        # print('new theta ', new_theta)
 
         self.past_derivative = derivative
 
