@@ -1,7 +1,7 @@
 import numpy as np
 
-from MedicalDecisionDiabetes.additional_params import CONFIG, Config, TruthType
-from MedicalDecisionDiabetes.state_params import State, PARAMS, Param
+from additional_params import CONFIG, Config, TruthType
+from state_params import State, PARAMS, Param
 
 
 class MedicalDecisionDiabetesModel:

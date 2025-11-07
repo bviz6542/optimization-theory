@@ -3,8 +3,8 @@ from typing import Dict
 
 import numpy as np
 
-from MedicalDecisionDiabetes.additional_params import Policy
-from MedicalDecisionDiabetes.state_params import State
+from additional_params import Policy
+from state_params import State
 
 
 class MedicalDecisionDiabetesPolicy:
