@@ -48,7 +48,7 @@ def main():
     model = MedicalDecisionDiabetesModel(seed)
     policy = MedicalDecisionDiabetesPolicy(seed)
 
-    for chosen_policy in list(Policy):
+    for chosen_policy in CONFIG[Config.POLICY]:
         policy_start = time.time()
 
         for theta in theta_range:
