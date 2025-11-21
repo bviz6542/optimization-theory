@@ -113,19 +113,13 @@ class StaticModel():
 
         return g,V_0,max_origin_node,max_target_node,maxSteps
 
-
-
-
     def alpha(self):
-        if self.init_args['stepsize_rule']=='Constant':
+        if self.init_args['stepsize_rule'] == 'Constant':
             return self.theta_step
+        elif self.init_args['stepsize_rule'] == 'Declining':
+            return self.theta_step / (self.theta_step + self.n - 1)
         else:
-            return self.theta_step  
-
-    
-
-
-
+            return self.theta_step
 
 # Stochastic Graph class 
 class StochasticGraph:
