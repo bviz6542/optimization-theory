@@ -1,0 +1,4 @@
+numpy
+scikit-learn
+matplotlib<3.8
+obp
